@@ -5,15 +5,21 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "ts-node-dev --respawn --transpile-only server/server.ts"
+    "dev": "ts-node-dev --respawn --transpile-only server/server.ts",
+    "client:dev": "npm run dev --prefix client",
+    "client:build": "npm run build --prefix client",
+    "client:lint": "npm run lint --prefix client",
+    "dev:all": "concurrently \"npm run dev\" \"npm run client:dev\""
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "^4.21.2",
+    "dotenv": "^16.4.5",
     "http-errors": "~1.6.3",
     "jade": "^1.9.2",
-    "morgan": "^1.10.1"
+    "morgan": "^1.10.1",
+    "mongoose": "^8.8.3"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",
@@ -22,6 +28,7 @@
     "@types/node": "^24.10.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3",
-    "vite": "npm:rolldown-vite@7.1.14"
+    "vite": "npm:rolldown-vite@7.1.14",
+    "concurrently": "^9.1.2"
   }
 }

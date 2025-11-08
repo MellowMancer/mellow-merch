@@ -8,7 +8,14 @@ const isProd = process.env.NODE_ENV === 'production';
 const clientRoot = path.resolve(process.cwd(), 'client');
 
 async function startServer() {
-  if (!isProd) {
+  if (isProd) {
+    const distPath = path.resolve(clientRoot, 'dist');
+
+    app.use(express.static(distPath));
+    app.get('*', (_req, res) => {
+      res.sendFile(path.join(distPath, 'index.html'));
+    });
+  } else {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       root: clientRoot,
@@ -30,21 +37,15 @@ async function startServer() {
         next(err);
       }
     });
-  } else {
-    const distPath = path.resolve(clientRoot, 'dist');
-
-    app.use(express.static(distPath));
-    app.get('*', (_req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
   }
 
   const port = Number(process.env.PORT) || 3000;
   app.listen(port, () => {
-    console.log(`Server listening on http://localhost:${port}`);
+    console.log(`Server listening on http://localhost:INR {port}`);
   });
 }
 
+// eslint-disable-next-line unicorn/prefer-top-level-await
 startServer().catch((err) => {
   console.error('Failed to start server', err);
   process.exit(1);
