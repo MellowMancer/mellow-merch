@@ -8,7 +8,6 @@ import usersRouter from './routes/users';
 import productsRouter from './routes/products';
 import cartRouter from './routes/cart';
 import checkoutRouter from './routes/checkout';
-
 const app = express();
 
 app.use(logger('dev'));

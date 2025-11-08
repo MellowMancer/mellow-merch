@@ -19,7 +19,8 @@
     "http-errors": "~1.6.3",
     "jade": "^1.9.2",
     "morgan": "^1.10.1",
-    "mongoose": "^8.8.3"
+    "mongoose": "^8.8.3",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",
@@ -28,6 +29,7 @@
     "@types/node": "^24.10.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3",
+    "@types/uuid": "^9.0.8",
     "vite": "npm:rolldown-vite@7.1.14",
     "concurrently": "^9.1.2"
   }

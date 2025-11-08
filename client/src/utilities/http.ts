@@ -42,7 +42,7 @@ class HttpClient {
   private async parseResponse<T>(response: Response): Promise<T> {
     if (!response.ok) {
       const message = await response.text();
-      throw new Error(message || `Request failed with status INR {response.status}`);
+      throw new Error(message || `Request failed with status ${response.status}`);
     }
 
     if (response.status === 204) {

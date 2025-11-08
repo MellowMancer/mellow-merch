@@ -1,11 +1,11 @@
-## Mock E-Commerce Cart Scaffold
+## Mellow Merch Cart Scaffold
 
-This project bootstraps a full-stack shopping cart for the Vibe Commerce coding assignment. It includes an Express backend, a React + Vite frontend, and lightweight state management to connect the two.
+This is a demo project for Nexora's assignment
 
 ### Project structure
 
-- `server/` – Express app, REST APIs, in-memory cart store, product catalog seed.
-- `client/` – React app with TanStack Router, cart context, and UI screens for browsing, cart, and checkout.
+- `server/` – Express app, REST APIs, MongoDB models, and catalog seeding.
+- `client/` – React app with TanStack Router, TailwindCSS styling, and UI screens for browsing, cart, and checkout.
 - `dist/` – TypeScript build output for the backend (`npm run build`).
 
 ### Getting started
@@ -13,6 +13,9 @@ This project bootstraps a full-stack shopping cart for the Vibe Commerce coding 
 ```bash
 # Install all dependencies
 npm install
+
+# Copy environment template
+cp env.example .env
 
 # Start backend only (Express + Vite middleware for SPA)
 npm run dev
@@ -23,8 +26,11 @@ npm run client:dev
 # Run both watchers together
 npm run dev:all
 ```
+`Note: Tailwind CSS has trouble loading when serving the client to the server`
 
 Backend APIs are available under `/api`, while the SPA is served from `/` during development and production (after building the client).
+
+You must provide a `MONGODB_URI` inside `.env` (see `env.example`). If the database is empty, the server seeds an initial catalog automatically on startup.
 
 ### Build and lint
 
@@ -41,7 +47,7 @@ npm run client:lint
 
 ### Next steps
 
-- Swap the in-memory cart (`server/services/cartService.ts`) for MongoDB or SQLite persistence.
-- Replace the static product catalog with an external API (e.g., Fake Store API) or database seed.
+- Replace the static seed with a live catalog source or admin UI.
+- Switch the demo cart user to real authentication.
 - Expand error handling and add automated tests (Jest, Vitest, or integration tests with Supertest).
 

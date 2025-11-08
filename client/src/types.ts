@@ -5,6 +5,8 @@ export interface Product {
   price: number;
   image: string;
   inventory: number;
+  sizes: string[];
+  colors: string[];
 }
 
 export interface CartLine {

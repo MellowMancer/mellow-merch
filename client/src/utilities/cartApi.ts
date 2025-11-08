@@ -11,21 +11,15 @@ export const cartApi = {
     return response.cart;
   },
   async updateCartItem(itemId: string, quantity: number): Promise<CartSnapshot> {
-    const response = await http.patch<{ cart: CartSnapshot }>(`/api/cart/INR {itemId}`, { quantity });
+    const response = await http.patch<{ cart: CartSnapshot }>(`/api/cart/${itemId}`, { quantity });
     return response.cart;
   },
   async removeCartItem(itemId: string): Promise<CartSnapshot> {
-    const response = await http.delete<{ cart: CartSnapshot }>(`/api/cart/INR {itemId}`);
+    const response = await http.delete<{ cart: CartSnapshot }>(`/api/cart/${itemId}`);
     return response.cart;
   },
-  async checkout(
-    payload: CheckoutPayload & { cartItems: { id: string; quantity: number }[] },
-  ): Promise<{ receipt: Receipt }> {
-    return http.post<{ receipt: Receipt }>('/api/checkout', {
-      name: payload.name,
-      email: payload.email,
-      cartItems: payload.cartItems,
-    });
+  async checkout(payload: CheckoutPayload): Promise<{ receipt: Receipt }> {
+    return http.post<{ receipt: Receipt }>('/api/checkout', payload);
   },
 };
 

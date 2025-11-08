@@ -1,11 +1,13 @@
 import { useState } from 'react';
+import { CartTable } from '../components/CartTable';
 import { CheckoutForm } from '../components/CheckoutForm';
 import { ReceiptModal } from '../components/ReceiptModal';
 import { StatusMessage } from '../components/StatusMessage';
 import { useCart } from '../state/CartContext';
+import { formatCurrency } from '../utilities/currency';
 
 export default function CheckoutPage() {
-  const { items, total, status, error, checkout } = useCart();
+  const { items, total, status, error, updateItem, removeItem, checkout } = useCart();
   const [receipt, setReceipt] = useState<{
     id: string;
     total: number;
@@ -20,38 +22,31 @@ export default function CheckoutPage() {
   const hasItems = items.length > 0;
 
   return (
-    <section className="checkout-page">
-      <header className="page-header">
-        <h1>Checkout</h1>
-        <p>Enter your details to receive a mock receipt.</p>
+    <section className="space-y-6">
+      <header className="space-y-2">
+        <h1 className="text-3xl font-semibold text-white">Cart &amp; Checkout</h1>
+        <p className="text-text-muted">Review your items, then place your mock order.</p>
       </header>
 
-      {!hasItems && <p>Your cart is empty. Add products before checking out.</p>}
-
       {status === 'error' && <StatusMessage status="error" message={error} />}
-      {status === 'loading' && <StatusMessage status="loading" />}
 
-      {hasItems && (
-        <>
-          <div className="checkout-page__summary">
-            <h2>Order Summary</h2>
-            <ul>
-              {items.map((item) => (
-                <li key={item.id}>
-                  <span>
-                    {item.product.name} × {item.quantity}
-                  </span>
-                  <strong>INR {item.lineTotal.toFixed(2)}</strong>
-                </li>
-              ))}
-            </ul>
-            <div className="checkout-page__total">
+      {hasItems ? (
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+          <div className="space-y-4">
+            {status === 'loading' && <StatusMessage status="loading" />}
+            <CartTable items={items} onUpdateQuantity={updateItem} onRemove={removeItem} />
+            <div className="flex items-center justify-end gap-3 text-lg font-semibold text-white">
               <span>Total</span>
-              <strong>INR {total.toFixed(2)}</strong>
+              <span>{formatCurrency(total)}</span>
             </div>
           </div>
-          <CheckoutForm onSubmit={handleCheckout} isSubmitting={status === 'loading'} />
-        </>
+          <div className="space-y-4 rounded-xl border border-border/60 bg-surface p-6 shadow-xl shadow-black/20">
+            <h2 className="text-lg font-semibold text-white">Customer Details</h2>
+            <CheckoutForm onSubmit={handleCheckout} isSubmitting={status === 'loading'} />
+          </div>
+        </div>
+      ) : (
+        <p className="text-sm text-text-muted">Your cart is empty. Add products before checking out.</p>
       )}
 
       {receipt && (

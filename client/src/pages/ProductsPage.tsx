@@ -11,15 +11,19 @@ export default function ProductsPage() {
   const isCartMutating = cartStatus === 'loading';
 
   return (
-    <section className="products-page">
-      <header className="page-header">
-        <h1>Catalog</h1>
-        <p>Choose your favorites from our mock inventory.</p>
+    <section className="space-y-6">
+      <header className="space-y-2">
+        <h1 className="text-3xl font-semibold tracking-tight text-white">Catalog</h1>
+        <p className="text-text-muted">Choose your favorites from our mock inventory.</p>
       </header>
 
       {status === 'error' && <StatusMessage status="error" message={error} />}
 
-      <div className="product-grid" aria-busy={isLoading}>
+      <div
+        className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
+        aria-busy={isLoading}
+        aria-live="polite"
+      >
         {isLoading && <StatusMessage status="loading" />}
         {!isLoading &&
           products.map((product) => (

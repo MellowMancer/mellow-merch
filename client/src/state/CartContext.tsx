@@ -117,12 +117,7 @@ export function CartProvider({ children }: { readonly children: ReactNode }) {
     async ({ name, email }: { name: string; email: string }) => {
       setState((prev) => ({ ...prev, status: 'loading', error: undefined }));
       try {
-        const cartItems = state.items.map((item) => ({
-          id: item.id,
-          quantity: item.quantity,
-        }));
-
-        const result = await cartApi.checkout({ name, email, cartItems });
+        const result = await cartApi.checkout({ name, email });
         applySnapshot({ items: [], total: 0 });
         return {
           receiptId: result.receipt.id,
@@ -138,7 +133,7 @@ export function CartProvider({ children }: { readonly children: ReactNode }) {
         throw error;
       }
     },
-    [applySnapshot, state.items],
+    [applySnapshot],
   );
 
   useEffect(() => {

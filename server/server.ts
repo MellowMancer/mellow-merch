@@ -1,13 +1,16 @@
-import app from './app';
+import 'dotenv/config';
 import express from 'express';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createServer as createViteServer } from 'vite';
+import app from './app';
+import { connectToDatabase } from './config/database';
+import { seedProductsIfEmpty } from './data/products';
 
 const isProd = process.env.NODE_ENV === 'production';
 const clientRoot = path.resolve(process.cwd(), 'client');
 
-async function startServer() {
+async function startServer(): Promise<void> {
   if (isProd) {
     const distPath = path.resolve(clientRoot, 'dist');
 
@@ -41,12 +44,18 @@ async function startServer() {
 
   const port = Number(process.env.PORT) || 3000;
   app.listen(port, () => {
-    console.log(`Server listening on http://localhost:INR {port}`);
+    console.log(`Server listening on http://localhost:${port}`);
   });
 }
 
+async function bootstrap() {
+  await connectToDatabase();
+  await seedProductsIfEmpty();
+  await startServer();
+}
+
 // eslint-disable-next-line unicorn/prefer-top-level-await
-startServer().catch((err) => {
+bootstrap().catch((err) => {
   console.error('Failed to start server', err);
   process.exit(1);
 });

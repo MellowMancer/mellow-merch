@@ -5,9 +5,13 @@ interface StatusMessageProps {
 
 export function StatusMessage({ status, message }: StatusMessageProps) {
   if (status === 'loading') {
-    return <p className="status status--loading">Loading…</p>;
+    return <p className="text-sm font-medium text-primary animate-pulse">Loading…</p>;
   }
 
-  return <p className="status status--error">{message ?? 'Something went wrong.'}</p>;
+  return (
+    <p className="text-sm font-medium text-danger">
+      {message ?? 'Something went wrong.'}
+    </p>
+  );
 }
 
